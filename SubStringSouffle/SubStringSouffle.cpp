@@ -12,25 +12,25 @@
 #include <vector>
 #include <iterator>
 #include <algorithm>    // std::sort
-#include <filesystem>
-#include <Windows.h>
+// #include <filesystem>
+// #include <Windows.h>
 #include <fstream>
 #include <ctime>
 
 
 bool compareFunction(std::string a, std::string b) { return a < b; }
 
-void displayPath()
-{
+// void displayPath()
+// {
 
-	//std::cout << "Current path is " << .current_path() << '\n';
-    //char * dir = getcwd(NULL, 0); // Platform-dependent, see reference link below
-    //printf("Current dir: %s \n", dir);
-	char result[MAX_PATH];
-	printf(result, GetModuleFileName(NULL, result, MAX_PATH));
-	printf(" ----:: Path \n\n\n");
+// 	//std::cout << "Current path is " << .current_path() << '\n';
+//     //char * dir = getcwd(NULL, 0); // Platform-dependent, see reference link below
+//     //printf("Current dir: %s \n", dir);
+// 	char result[MAX_PATH];
+// 	printf(result, GetModuleFileName(NULL, result, MAX_PATH));
+// 	printf(" ----:: Path \n\n\n");
 
-}
+// }
 
 
 
@@ -55,7 +55,7 @@ int main(int argc, const char* argv[]) {
 
 	// ALways be curtious and say hello.
 	std::cout << "Hello, World!\n";
-	displayPath();
+	//displayPath();
 
 	//Just a check to see if the files are open.
 	if (comonwords.is_open())
