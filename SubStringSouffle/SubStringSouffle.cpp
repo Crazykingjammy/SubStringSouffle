@@ -34,6 +34,7 @@ bool compareFunction(std::string a, std::string b) { return a < b; }
 
 
 
+
 int main(int argc, const char* argv[]) {
 
 	//Timer variables at the very top.
