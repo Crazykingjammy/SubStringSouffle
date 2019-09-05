@@ -1,0 +1,5 @@
+C:/Users/kevaa/source/repos/SubStringSouffle/out/build/x64-Debug/CMakeFiles/edit_cache.dir
+C:/Users/kevaa/source/repos/SubStringSouffle/out/build/x64-Debug/CMakeFiles/rebuild_cache.dir
+C:/Users/kevaa/source/repos/SubStringSouffle/out/build/x64-Debug/SubStringSouffle/CMakeFiles/SubStringSouffle.dir
+C:/Users/kevaa/source/repos/SubStringSouffle/out/build/x64-Debug/SubStringSouffle/CMakeFiles/edit_cache.dir
+C:/Users/kevaa/source/repos/SubStringSouffle/out/build/x64-Debug/SubStringSouffle/CMakeFiles/rebuild_cache.dir
