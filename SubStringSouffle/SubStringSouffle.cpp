@@ -17,20 +17,27 @@
 #include <fstream>
 #include <ctime>
 
+#include <limits.h>
+#include <unistd.h>
+
+std::string getexepath()
+{
+  char result[ PATH_MAX ];
+  ssize_t count = readlink( "/proc/self/exe", result, PATH_MAX );
+
+  return std::string( result, (count > 0) ? count : 0 );
+
+}
 
 bool compareFunction(std::string a, std::string b) { return a < b; }
 
-// void displayPath()
-// {
-
-// 	//std::cout << "Current path is " << .current_path() << '\n';
-//     //char * dir = getcwd(NULL, 0); // Platform-dependent, see reference link below
-//     //printf("Current dir: %s \n", dir);
-// 	char result[MAX_PATH];
-// 	printf(result, GetModuleFileName(NULL, result, MAX_PATH));
-// 	printf(" ----:: Path \n\n\n");
-
-// }
+void displayPath()
+{
+	std::string path = getexepath();
+ 	
+	 std::cout << path << '\n';
+	 printf(" ----:: Path \n\n\n");
+}
 
 
 
@@ -44,8 +51,8 @@ int main(int argc, const char* argv[]) {
 	start = std::clock();
 
 	//Streams for the tewo text files.
-	std::ifstream comonwords("../../../../homework_data/commonwords.txt");
-	std::ifstream allWords("../../../../homework_data/allwords.txt");
+	std::ifstream comonwords("homework_data/commonwords.txt");
+	std::ifstream allWords("homework_data/allwords.txt");
 	std::string str;
 	std::string test;
 
@@ -55,8 +62,8 @@ int main(int argc, const char* argv[]) {
 	std::vector<std::string> SubStringList;
 
 	// ALways be curtious and say hello.
-	std::cout << "Hello, World!\n";
-	//displayPath();
+	std::cout << "Hello, Visual Studio Code!\n";
+	displayPath();
 
 	//Just a check to see if the files are open.
 	if (comonwords.is_open())
@@ -105,7 +112,7 @@ int main(int argc, const char* argv[]) {
 		//Increment the word counter.
 		wordcount++;
 
-	//	std::cout << "Full Word Count: " << wordcount << '\r';
+		//std::cout << "Full Word Count: " << wordcount << '\r';
 	}
 
 	
@@ -123,22 +130,22 @@ int main(int argc, const char* argv[]) {
 		for (auto&& cword : commonwordsList)
 		{
 			////Pasing in the common word, and finding it within the word selected from AllWords.txt.
-			//std::size_t pos = word.find(cword);
+			std::size_t pos = word.find(cword);
+	
+			//Checking if we found somthing,
+			if (pos != std::string::npos)
+			{
 
-			////Checking if we found somthing,
-			//if (pos != std::string::npos)
-			//{
+				//Grabbing the string we found, adding it to its own vector.
+				std::string sub = word.substr(pos);
+				SubStringList.push_back(sub);
 
-			//	//Grabbing the string we found, adding it to its own vector.
-			//	std::string sub = word.substr(pos);
-			//	SubStringList.push_back(sub);
+				// std::strstr(<#const char *__big#>, <#const char *__little#>)
 
-			//	// std::strstr(<#const char *__big#>, <#const char *__little#>)
+				 //Keeping track of the word count.
+				SubStringcout++;
 
-			//	 //Keeping track of the word count.
-			//	SubStringcout++;
-
-			//}
+			}
 		}
 
 
