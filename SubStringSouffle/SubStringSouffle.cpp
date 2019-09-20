@@ -7,64 +7,33 @@
 //
 
 
-#include <iostream>
-#include <string>
-#include <vector>
-#include <iterator>
-#include <algorithm>    // std::sort
-// #include <filesystem>
-// #include <Windows.h>
-#include <fstream>
-#include <ctime>
+#include "SubStringSouffle.h"
 
-#include <limits.h>
-#include <unistd.h>
+//Globals, because we are trying to keep this all in one single file, for now. 
 
-std::string getexepath()
+//Timer variables at the very top.
+std::clock_t start, cache;
+
+//Streams for the tewo text files.
+std::ifstream comonwords("homework_data/commonwords.txt");
+std::ifstream allWords("homework_data/allwords.txt");
+
+//Cache string to hold values.
+std::string str;
+
+//Vectors to store all the words.
+std::vector<std::string> commonwordsList;
+std::vector<std::string> allwordsList;
+std::vector<std::string> SubStringList;
+
+//Counters to keep track of word counts for different lists.
+int commoncount = 0;
+int wordcount = 0;
+int SubStringcout = 0;
+
+
+void _validateStreamFiles()
 {
-  char result[ PATH_MAX ];
-  ssize_t count = readlink( "/proc/self/exe", result, PATH_MAX );
-
-  return std::string( result, (count > 0) ? count : 0 );
-
-}
-
-bool compareFunction(std::string a, std::string b) { return a < b; }
-
-void displayPath()
-{
-	std::string path = getexepath();
- 	
-	 std::cout << path << '\n';
-	 printf(" ----:: Path \n\n\n");
-}
-
-
-
-
-int main(int argc, const char* argv[]) {
-
-	//Timer variables at the very top.
-
-	std::clock_t start, cache;
-	double duration;
-	start = std::clock();
-
-	//Streams for the tewo text files.
-	std::ifstream comonwords("homework_data/commonwords.txt");
-	std::ifstream allWords("homework_data/allwords.txt");
-	std::string str;
-	std::string test;
-
-	//Vectors to store all the words.
-	std::vector<std::string> commonwordsList;
-	std::vector<std::string> allwordsList;
-	std::vector<std::string> SubStringList;
-
-	// ALways be curtious and say hello.
-	std::cout << "Hello, Visual Studio Code!\n";
-	displayPath();
-
 	//Just a check to see if the files are open.
 	if (comonwords.is_open())
 		std::cout << "File Found: commonwords.txt \n";
@@ -76,15 +45,54 @@ int main(int argc, const char* argv[]) {
 	else
 		std::cout << "File Not Found! : allwords.txt \n";
 
+}
 
-	//Counters to keep track of word counts for different lists.
-	int commoncount = 0;
-	int wordcount = 0;
-	int SubStringcout = 0;
+void _writeResultsToFile(std::string filename)
+{
+	//Write the substrings into an output file.
+	std::ofstream myfile;
+	myfile.open("substrings.txt");
 
+	//Go through and write every word in the SubStringList.
+	for (auto&& word : SubStringList)
+	{
+		myfile << word << '\n';
+	}
+
+	myfile.close();
+}
+
+void _printResultData()
+{
+
+	//Clear out some space before we print our data.
+	std::cout << "\n\n\n";
+	
+	//std::cout << "------ :Final Results Data:  ------" << "\n\n";
+	Header("Final Results Data");
+
+	//Output the stats. (our word count)
+	//Outputting the vector stats.
+	std::cout << "Common Words Count:     " << commoncount << '\n';
+	std::cout << "Common Vector ----->      " << commonwordsList.size() << "\n\n";
+
+
+	std::cout << "Total Words Count:      " << wordcount << '\n';
+	std::cout << "Allwords Vector ----->      " << allwordsList.size() << "\n\n";
+
+
+
+	std::cout << "SubString Count:      " << SubStringcout << '\n';
+	std::cout << "Sub String Vector ----->      " << SubStringList.size() << "\n\n\n";
+
+
+
+}
+
+void _fillVectorsFromFile()
+{
 	//Set the cache time.
 	cache = std::clock();
-
 	//Grabbing the words and throwing them in vectors
 	while (std::getline(comonwords, str))
 	{
@@ -92,14 +100,10 @@ int main(int argc, const char* argv[]) {
 		//std::cout << str << '\n';
 		commonwordsList.push_back(str);
 		commoncount++;
-
-	//	std::cout << "Comon Word Count: " << commoncount << '\r';
 	}
 
-	std::cout << "Comon Word Count: " << commoncount << '\n';
-	
-	duration = (std::clock() - cache) / (double)CLOCKS_PER_SEC;
-	std::cout << "Calcualted Time: " << duration << '\n'; 
+	DisplayTimeElapsed(cache);
+	std::cout << "Comon Word Count: " << commoncount << "\n\n\n";
 
 	//Set the cache time.
 	cache = std::clock();
@@ -111,21 +115,89 @@ int main(int argc, const char* argv[]) {
 		allwordsList.push_back(str);
 		//Increment the word counter.
 		wordcount++;
-
-		//std::cout << "Full Word Count: " << wordcount << '\r';
 	}
 
-	
+	//display function
+	DisplayTimeElapsed(cache);
+	std::cout << "Full Word Count: " << wordcount << "\n\n\n";
+}
 
-	std::cout << "Full Word Count: " << wordcount << '\n';
-	
-	duration = (std::clock() - cache) / (double)CLOCKS_PER_SEC;
-	std::cout << "Calcualted Time: " << duration << '\n';
+void _noLoopTraverse()
+{
+		//Set the cache time.
+	cache = std::clock();
+
+	Header("No Loop Traverse");
+	int _allwords_loop_counter_ = 0;
 
 	//Go through the list of All the Words....
 	for (auto&& word : allwordsList)
 	{
-	
+		// //Nested loop to compare all the words from the AllWords.txt, with each word in CommonWords.txt
+		// for (auto&& cword : commonwordsList)
+		// {
+		// }
+
+		// 	if(_allwords_loop_counter_ == (int) (allwordsList.size()/ 2) )
+		// 	{
+		// 		DisplayTimeElapsed(cache, "Half way there... : ");
+		// 	}
+			
+		// 	std::cout << "count : " << _allwords_loop_counter_  << '\r';
+			_allwords_loop_counter_++;
+	}
+
+
+	//Print one last time as we exit the loop, with out the rollback.
+	std::cout << "count : " << _allwords_loop_counter_  << '\n';
+
+	DisplayTimeElapsed(cache, "Full Word Traverse Total Time: ");
+}
+
+void _emptyTraverse()
+{
+	//Set the cache time.
+	cache = std::clock();
+
+	Header("Begin Empty Traverse");
+	int _allwords_loop_counter_ = 0;
+
+	//Go through the list of All the Words....
+	for (auto&& word : allwordsList)
+	{
+		//Nested loop to compare all the words from the AllWords.txt, with each word in CommonWords.txt
+		for (auto&& cword : commonwordsList)
+		{
+		}
+
+			if(_allwords_loop_counter_ == (int) (allwordsList.size()/ 2) )
+			{
+				DisplayTimeElapsed(cache, "Half way there... : ");
+			}
+			
+			std::cout << "count : " << _allwords_loop_counter_  << '\r';
+			_allwords_loop_counter_++;
+	}
+
+
+	//Print one last time as we exit the loop, with out the rollback.
+	std::cout << "count : " << _allwords_loop_counter_  << '\n';
+
+	DisplayTimeElapsed(cache, "Full Word Traverse Total Time: ");
+}
+
+void _traverseLists()
+{
+	//Set the cache time.
+	cache = std::clock();
+
+	//std::cout << "Begin Full Body Traverse ... " << '\n';
+	Header("Begin Full Body Traverse");
+	int _allwords_loop_counter_ = 0;
+
+	//Go through the list of All the Words....
+	for (auto&& word : allwordsList)
+	{
 		//Nested loop to compare all the words from the AllWords.txt, with each word in CommonWords.txt
 		for (auto&& cword : commonwordsList)
 		{
@@ -146,44 +218,90 @@ int main(int argc, const char* argv[]) {
 				SubStringcout++;
 
 			}
+
 		}
 
 
+			if(_allwords_loop_counter_ == (int) (allwordsList.size()/ 2) )
+			{
+				DisplayTimeElapsed(cache, "Half way there... : ");
+			}
+			
+			std::cout << "count : " << _allwords_loop_counter_  << '\r';
+			_allwords_loop_counter_++;
 	}
 
-	//Perform sorting.
-	std::sort(SubStringList.begin(), SubStringList.end(), compareFunction);
 
-	//Write the substrings into an output file.
-	std::ofstream myfile;
-	myfile.open("substrings.txt");
+	//Print one last time as we exit the loop, with out the rollback.
+	std::cout << "count : " << _allwords_loop_counter_  << '\n';
 
-	//Go through and write every word in the SubStringList.
-	for (auto&& word : SubStringList)
+	DisplayTimeElapsed(cache, "Full Word Traverse Total Time: ");
+}
+
+void ProcessLists()
+{
+
+	char input;
+
+	Header("Please Select a Traverse Option");
+
+	//std::cout << "------ :Please Select a Traverse Option:  ------" << "\n\n";
+	std::cout << "[T] - Regular Traverse" << '\n';
+	std::cout << "[E] - Empty Traverse" << '\n';
+	std::cout << "[N] - No Loop Traverse" << '\n';
+	std::cin >> input;
+
+	switch (input)
 	{
-		myfile << word << '\n';
+	case 'T':
+		_traverseLists();
+		break;
+	case 'E':
+		_emptyTraverse();
+		break;
+	case 'N':
+		_noLoopTraverse();
+		break;
+	
+	default:
+		std::cout << "\n\n" << "Invalid Command, continuing without any process functions() ---> " << "\n\n";
+		break;
+		
 	}
+}
 
-	myfile.close();
+int main(int argc, const char* argv[]) {
+
+	// //Timer variables at the very top.
+	start = std::clock();
+	Header("Program Start!");
+	
+	// ALways be curtious and say hello.
+	std::cout << "Hello, Sub String Homework!\r";
+	displayPath();
+
+	//Validate the files we need to load.
+	_validateStreamFiles();
+
+	//After files validated, fill up vector lists.
+	_fillVectorsFromFile();
 
 
-	//Output the stats. (our word count)
-	std::cout << "Common Words Count:     " << commoncount << '\n';
-	std::cout << "Total Words Count:      " << wordcount << '\n';
-	std::cout << "SubString Count:      " << SubStringcout << '\n';
+	ProcessLists();
+	//Perform sorting.
+	//std::sort(SubStringList.begin(), SubStringList.end(), compareFunction);
 
-	//Outputting the vector stats.
-	std::cout << "Common Vector ----->      " << commonwordsList.size() << '\n';
-	std::cout << "Allwords Vector ----->      " << allwordsList.size() << '\n';
-	std::cout << "Sub String Vector ----->      " << SubStringList.size() << '\n';
+	//Write resutls to file.
+	_writeResultsToFile("substrings.txt");
 
+	//Cal results print function.s
+	_printResultData();
+
+	//Calculate time since start.
+	DisplayTimeElapsed(start, "Total Program Time:");
 
 	//Finishing line.
 	std::cout << "Program completed ! : SubString \n";
-
-
-
-
 
 }
 
