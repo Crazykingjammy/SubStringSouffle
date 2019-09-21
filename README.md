@@ -33,7 +33,8 @@ main.cpp is kind of setup to run on its own if we wernt fools and just want to t
 
  ./prog   (runs the program)
  
- 
+#### Status - 9 - 21 - 2019
+
 Not happy with the class breakdown in the current submission. Got to break down the internal functions better.
 
 But the program demonstrates a few different performances:
