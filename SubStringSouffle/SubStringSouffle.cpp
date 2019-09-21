@@ -15,9 +15,14 @@ SubStringSouffle program;
 
 int main(int argc, const char* argv[]) {
 
-	// ALways be curtious and say hello.
+	std::cout << "Have " << argc << " arguments: ";
+    for (int i = 0; i < argc; ++i) {
+        std::cout << argv[i] << ", ";
+    }
+	std::cout << '\n';
+
+
 	std::cout << "Hello, Sub String Homework!\n";
-	std::cout << "Input Data: " << argc << " argv check: " << &argv <<  "\n\n\n";
 
 	//Load the program and pass in the data files.
 	program.Load("homework_data/commonwords.txt", "homework_data/allwords.txt");
@@ -215,13 +220,25 @@ void SubStringSouffle::_traverseLists()
 	//Set the cache time.
 	cache = std::clock();
 
-	//std::cout << "Begin Full Body Traverse ... " << '\n';
+	//Note: So we can perform a sort here, in the the case of the all words list not being alphabetically ordered, and the output desire is to be alphabetically ordered.
+	//Perform sorting.
+	//std::sort(SubStringList.begin(), SubStringList.end(), compareFunction);
+
+	//Having some formatting fun.
 	Header("Begin Full Body Traverse");
+	
+	//keeping track of the index anyway. i bet there is a way to grab that within the loop that i am unaware of. 
 	int _allwords_loop_counter_ = 0;
 
 	//Go through the list of All the Words....
 	for (auto&& word : allwordsList)
 	{
+
+
+		//Start the loop with the word we are on, then add the seprator and a space for the substrings to follow.
+		std::string entry = word + "; ";
+
+
 		//Nested loop to compare all the words from the AllWords.txt, with each word in CommonWords.txt
 		for (auto&& cword : commonwordsList)
 		{
@@ -233,10 +250,9 @@ void SubStringSouffle::_traverseLists()
 			{
 
 				//Grabbing the string we found, adding it to its own vector.
-				std::string sub = word.substr(pos);
-				SubStringList.push_back(sub);
-
-				// std::strstr(<#const char *__big#>, <#const char *__little#>)
+				//std::string sub = word.substr(pos);
+				entry += word.substr(pos);
+				entry += ", ";
 
 				 //Keeping track of the word count.
 				SubStringcout++;
@@ -245,12 +261,15 @@ void SubStringSouffle::_traverseLists()
 
 		}
 
+			//Push back the entry at with the concatnated substrings.
+			SubStringList.push_back(entry);
 
 			if(_allwords_loop_counter_ == (int) (allwordsList.size()/ 2) )
 			{
 				DisplayTimeElapsed(cache, "Half way there... : ");
 			}
 			
+			//Fancy for loop to keep a counter. hm.
 			std::cout << "count : " << _allwords_loop_counter_  << '\r';
 			_allwords_loop_counter_++;
 	}
@@ -262,71 +281,61 @@ void SubStringSouffle::_traverseLists()
 	DisplayTimeElapsed(cache, "Full Word Traverse Total Time: ");
 }
 
+//This is a double loop version using STSRSTR function of the string class.
 void SubStringSouffle::_traverseSTR()
 {
 	//Set the cache time.
 	cache = std::clock();
 
-	//std::cout << "Begin Full Body Traverse ... " << '\n';
+	//Note: So we can perform a sort here, in the the case of the all words list not being alphabetically ordered, and the output desire is to be alphabetically ordered.
+	//Perform sorting.
+	//std::sort(SubStringList.begin(), SubStringList.end(), compareFunction);
+
 	Header("Begin STRSTR Traverse");
 	int _allwords_loop_counter_ = 0;
 
 	//Go through the list of All the Words....
 	for (auto&& word : allwordsList)
 	{
+		//Store our data in this function for faster access.
 		char* big = word.data();
-		
+
+		std::string entry = word + "; ";
 
 		//Nested loop to compare all the words from the AllWords.txt, with each word in CommonWords.txt
 		for (auto&& cword : commonwordsList)
 		{
-			
+			//We will just continue to cache our data even though we access it only once.
 			char* small = cword.data();
-			
 			char* p;
-
+			
+			//Start with the word.
 			p = std::strstr(big,small);
 
 			if(p)
 			{
-				std::string sub = p;
-				SubStringList.push_back(sub);
-
-				// std::strstr(<#const char *__big#>, <#const char *__little#>)
-
+				//Got to find a way to do this with one line. More research needed to not get errors. (using VS code)
+				entry += (p);
+				entry += ", ";
+				
 				 //Keeping track of the word count.
 				SubStringcout++;
 			}
 
-
-
-
-
-	//   // Take any two strings 
-	//     char s1[] = "GeeksforGeeks"; 
-	//     char s2[] = "for"; 
-	//     char* p; 
-	
-	//     // Find first occurence of s2 in s1 
-	//     p = strstr(s1, s2); 
-	
-	//     // Prints the result 
-	//     if (p) { 
-	//         printf("String found\n"); 
-	//         printf("First occurrence of string '%s' in '%s' is '%s'", s2, s1, p); 
-	//     } else
-	//         printf("String not found\n"); 
-
-
-			
 		}
 
+				//Push back an entry of the all words, with all of the sub strings attached to them.
+				SubStringList.push_back(entry);
 
+
+			//Information to display during operations.
+			//Just a half way marker, dont want to go overboard since on UNIX (not windows) Ive manged to erase the line and display sount, so woot.
 			if(_allwords_loop_counter_ == (int) (allwordsList.size()/ 2) )
 			{
 				DisplayTimeElapsed(cache, "Half way there... : ");
 			}
 			
+			//Using a fancy for loop in order to still declear a counter so i can display. hehe.
 			std::cout << "count : " << _allwords_loop_counter_  << '\r';
 			_allwords_loop_counter_++;
 	}
@@ -335,7 +344,7 @@ void SubStringSouffle::_traverseSTR()
 	//Print one last time as we exit the loop, with out the rollback.
 	std::cout << "count : " << _allwords_loop_counter_  << '\n';
 
-	DisplayTimeElapsed(cache, "Full Word Traverse Total Time: ");
+	DisplayTimeElapsed(cache, "STRSTR Traverse Total Time: ");
 }
 
 void SubStringSouffle::ProcessLists()
@@ -346,24 +355,28 @@ void SubStringSouffle::ProcessLists()
 	Header("Please Select a Traverse Option");
 
 	//std::cout << "------ :Please Select a Traverse Option:  ------" << "\n\n";
-	std::cout << "[T] - Regular Traverse" << '\n';
-	std::cout << "[E] - Empty Traverse" << '\n';
 	std::cout << "[N] - No Loop Traverse" << '\n';
+	std::cout << "[E] - Empty Traverse" << '\n';
 	std::cout << "[X] - Traverse via STRSTR" << '\n';
+	std::cout << "[T] - Regular Traverse" << '\n';
 	std::cin >> input;
 
 	switch (input)
 	{
 	case 'T':
+	case 't':
 		_traverseLists();
 		break;
 	case 'E':
+	case 'e':
 		_emptyTraverse();
 		break;
 	case 'N':
+	case 'n':
 		_noLoopTraverse();
 		break;
 		case 'X':
+		case 'x':
 		_traverseSTR();
 		break;
 
@@ -372,9 +385,6 @@ void SubStringSouffle::ProcessLists()
 		break;
 		
 	}
-
-	//Perform sorting.
-	//std::sort(SubStringList.begin(), SubStringList.end(), compareFunction);
 
 	//Write resutls to file.
 	_writeResultsToFile("substrings.txt");
