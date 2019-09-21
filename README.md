@@ -16,22 +16,36 @@ Your solution to the assignment should be implemented in C/C++, but beyond this 
 
 ### Project Notes
 
-Here is a small dump of the type of things i am learning with this project, not sure where ot dump the notes. This read me seems more fun than a one note file.
-Reference all my material here while I work on this project.
-Perhaps the wiki is more suitable?
+
+This program is also an exersise for me using the mac terminal to compile and run the program, while using visual studio Code to edit. (Yeah even though there are extentions to run c++ apps within vs code)
+
+To compile on windows, I would need to make a few modifications. 
+On UNIX the '/r' command words so i can display a word count and visualize progress, havent found successfull soulution as such for windows platform yet.
 
 #### gcc compile arguments
 
 
- gcc -o hello c_helloworld.cpp -lstdc++
+g++ -std=c++17 -o prog substringsouffle/substringsouffle.cpp
+
+My compile arguments from the main directly. I use the main.cpp as a test file for now.
+main.cpp is kind of setup to run on its own if we wernt fools and just want to try compiling everything down to come terminal command. Otherwise I would have to compile substringsouffle.cpp + main.cp, and then link substringsouffle.o + main.o into prog.
+
+
+ ./prog   (runs the program)
  
- This seems to be a regular -lstd++ compile.
  
- clang++ -o program program.cpp
-g++ -std=c++11 -o program program.cpp
-g++-7 -std=c++11 -o program program.cpp
-./program   (runs the program)
+Not happy with the class breakdown in teh current submission. Got to break down the internal functions better.
+But the program demonstrates a few different performances:
+
+1. No loop 
+ - (not performing a double loop, although you still traverse through the full allwords list)
+2. Empty Loop 
+ - (Performs the nested loop, but performs no operations beyond that)
+3. Regular Compare
+ - (Just a standard format for comparing the strings)
+4. STRSTR compare
+ - (Using the strstr function to get double performance form standard)
  
- Fun C++11 type stuff. Havent tried C++14. 
  
- All these arguments are used because I decided to use fancy new for loops to be more lazy while typing loops. lol. 
+ The goal at this point is to clearn up the code better, I think the code is balloned beyond what it shold be for what this program does.
+ 
