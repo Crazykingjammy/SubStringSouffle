@@ -5,6 +5,7 @@
 
 #include <iostream>
 #include <string>
+#include <cstring>
 #include <vector>
 #include <iterator>
 #include <algorithm>    // std::sort
@@ -48,6 +49,7 @@ private:
 	void _noLoopTraverse();
 	void _emptyTraverse();
 	void _traverseLists();
+	void _traverseSTR();
 
 
 	//Public interface functions.

@@ -262,6 +262,82 @@ void SubStringSouffle::_traverseLists()
 	DisplayTimeElapsed(cache, "Full Word Traverse Total Time: ");
 }
 
+void SubStringSouffle::_traverseSTR()
+{
+	//Set the cache time.
+	cache = std::clock();
+
+	//std::cout << "Begin Full Body Traverse ... " << '\n';
+	Header("Begin STRSTR Traverse");
+	int _allwords_loop_counter_ = 0;
+
+	//Go through the list of All the Words....
+	for (auto&& word : allwordsList)
+	{
+		char* big = word.data();
+		
+
+		//Nested loop to compare all the words from the AllWords.txt, with each word in CommonWords.txt
+		for (auto&& cword : commonwordsList)
+		{
+			
+			char* small = cword.data();
+			
+			char* p;
+
+			p = std::strstr(big,small);
+
+			if(p)
+			{
+				std::string sub = p;
+				SubStringList.push_back(sub);
+
+				// std::strstr(<#const char *__big#>, <#const char *__little#>)
+
+				 //Keeping track of the word count.
+				SubStringcout++;
+			}
+
+
+
+
+
+	//   // Take any two strings 
+	//     char s1[] = "GeeksforGeeks"; 
+	//     char s2[] = "for"; 
+	//     char* p; 
+	
+	//     // Find first occurence of s2 in s1 
+	//     p = strstr(s1, s2); 
+	
+	//     // Prints the result 
+	//     if (p) { 
+	//         printf("String found\n"); 
+	//         printf("First occurrence of string '%s' in '%s' is '%s'", s2, s1, p); 
+	//     } else
+	//         printf("String not found\n"); 
+
+
+			
+		}
+
+
+			if(_allwords_loop_counter_ == (int) (allwordsList.size()/ 2) )
+			{
+				DisplayTimeElapsed(cache, "Half way there... : ");
+			}
+			
+			std::cout << "count : " << _allwords_loop_counter_  << '\r';
+			_allwords_loop_counter_++;
+	}
+
+
+	//Print one last time as we exit the loop, with out the rollback.
+	std::cout << "count : " << _allwords_loop_counter_  << '\n';
+
+	DisplayTimeElapsed(cache, "Full Word Traverse Total Time: ");
+}
+
 void SubStringSouffle::ProcessLists()
 {
 
@@ -273,6 +349,7 @@ void SubStringSouffle::ProcessLists()
 	std::cout << "[T] - Regular Traverse" << '\n';
 	std::cout << "[E] - Empty Traverse" << '\n';
 	std::cout << "[N] - No Loop Traverse" << '\n';
+	std::cout << "[X] - Traverse via STRSTR" << '\n';
 	std::cin >> input;
 
 	switch (input)
@@ -286,7 +363,10 @@ void SubStringSouffle::ProcessLists()
 	case 'N':
 		_noLoopTraverse();
 		break;
-	
+		case 'X':
+		_traverseSTR();
+		break;
+
 	default:
 		std::cout << "\n\n" << "Invalid Command, continuing without any process functions() ---> " << "\n\n";
 		break;
