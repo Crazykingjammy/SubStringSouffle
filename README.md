@@ -34,7 +34,8 @@ main.cpp is kind of setup to run on its own if we wernt fools and just want to t
  ./prog   (runs the program)
  
  
-Not happy with the class breakdown in teh current submission. Got to break down the internal functions better.
+Not happy with the class breakdown in the current submission. Got to break down the internal functions better.
+
 But the program demonstrates a few different performances:
 
 1. No loop 
