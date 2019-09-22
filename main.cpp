@@ -12,11 +12,17 @@
 //#include "SubStringSouffle/SubStringSouffle.h"
 #include <iostream>
 
-// //Globals, because we are trying to keep this all in one single file, for now. 
+//Globals, because we are trying to keep this all in one single file, for now. 
 // SubStringSouffle program; 
 
 
 // int main(int argc, const char* argv[]) {
+
+//     std::cout << "Have " << argc << " arguments: ";
+//     for (int i = 0; i < argc; ++i) {
+//         std::cout << argv[i] << ", ";
+//     }
+// 	std::cout << '\n';
 
 // 	// ALways be curtious and say hello.
 // 	std::cout << "Hello, Main!!\n";
@@ -37,6 +43,7 @@
 int main(int argc, char** argv) {
     std::cout << "Have " << argc << " arguments:" << std::endl;
     for (int i = 0; i < argc; ++i) {
-        std::cout << argv[i] << std::endl;
+        std::cout << argv[i] << ", ";
     }
+		std::cout << "  [.]" << std::endl;
 }

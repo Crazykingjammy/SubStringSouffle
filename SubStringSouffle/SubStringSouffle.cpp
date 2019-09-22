@@ -9,32 +9,32 @@
 
 #include "SubStringSouffle.h"
 
-//Globals, because we are trying to keep this all in one single file, for now. 
-SubStringSouffle program; 
+// //Globals, because we are trying to keep this all in one single file, for now. 
+// SubStringSouffle program; 
 
 
-int main(int argc, const char* argv[]) {
+// int main(int argc, const char* argv[]) {
 
-	std::cout << "Have " << argc << " arguments: ";
-    for (int i = 0; i < argc; ++i) {
-        std::cout << argv[i] << ", ";
-    }
-	std::cout << '\n';
+// 	std::cout << "Have " << argc << " arguments: ";
+//     for (int i = 0; i < argc; ++i) {
+//         std::cout << argv[i] << ", ";
+//     }
+// 	std::cout << '\n';
 
 
-	std::cout << "Hello, Sub String Homework!\n";
+// 	std::cout << "Hello, Sub String Homework!\n";
 
-	//Load the program and pass in the data files.
-	program.Load("homework_data/commonwords.txt", "homework_data/allwords.txt");
+// 	//Load the program and pass in the data files.
+// 	program.Load("homework_data/commonwords.txt", "homework_data/allwords.txt");
 
-	//Process the list.
-	program.ProcessLists();
+// 	//Process the list.
+// 	program.ProcessLists();
 	
 	
-	//Finishing line.
-	std::cout << "Program completed ! : SubString \n";
+// 	//Finishing line.
+// 	std::cout << "Program completed ! : SubString \n";
 
-}
+// }
 
 void SubStringSouffle::Load(std::string filename_CommonWords, std::string filename_AllWords)
 {
@@ -293,21 +293,26 @@ void SubStringSouffle::_traverseSTR()
 
 	Header("Begin STRSTR Traverse");
 	int _allwords_loop_counter_ = 0;
+	char* big;
+	char* small;
+	char* p;
 
 	//Go through the list of All the Words....
+	#pragma omp parallel for  num_threads(2)
 	for (auto&& word : allwordsList)
 	{
 		//Store our data in this function for faster access.
-		char* big = word.data();
+		big = word.data();
 
 		std::string entry = word + "; ";
 
 		//Nested loop to compare all the words from the AllWords.txt, with each word in CommonWords.txt
+		//#pragma omp parallel for
 		for (auto&& cword : commonwordsList)
 		{
 			//We will just continue to cache our data even though we access it only once.
-			char* small = cword.data();
-			char* p;
+			small = cword.data();
+			
 			
 			//Start with the word.
 			p = std::strstr(big,small);
@@ -324,8 +329,8 @@ void SubStringSouffle::_traverseSTR()
 
 		}
 
-				//Push back an entry of the all words, with all of the sub strings attached to them.
-				SubStringList.push_back(entry);
+			//Push back an entry of the all words, with all of the sub strings attached to them.
+			SubStringList.push_back(entry);
 
 
 			//Information to display during operations.
