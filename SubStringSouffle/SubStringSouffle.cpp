@@ -35,6 +35,7 @@
 // 	std::cout << "Program completed ! : SubString \n";
 
 // }
+bool compareFunction(std::string a, std::string b) { return a < b; }
 
 void SubStringSouffle::Load(std::string filename_CommonWords, std::string filename_AllWords)
 {
@@ -237,6 +238,9 @@ void SubStringSouffle::_traverseLists()
 
 		//Start the loop with the word we are on, then add the seprator and a space for the substrings to follow.
 		std::string entry = word + "; ";
+		
+		//Clear the local list at the start of every word int he full list.
+		local_SubStringPile.clear();
 
 
 		//Nested loop to compare all the words from the AllWords.txt, with each word in CommonWords.txt
@@ -250,9 +254,8 @@ void SubStringSouffle::_traverseLists()
 			{
 
 				//Grabbing the string we found, adding it to its own vector.
-				//std::string sub = word.substr(pos);
-				entry += word.substr(pos);
-				entry += ", ";
+				//Store the word we found in a list to sort later.
+				local_SubStringPile.push_back(word.substr(pos));
 
 				 //Keeping track of the word count.
 				SubStringcout++;
@@ -260,6 +263,19 @@ void SubStringSouffle::_traverseLists()
 			}
 
 		}
+
+			//Perform the sort, and the concat before we push back.
+			std::sort(local_SubStringPile.begin(), local_SubStringPile.end(), compareFunction );
+
+			//Perform the concat here.
+			for(size_t i=0; i!=local_SubStringPile.size(); i++)
+			{
+				//Got to find a way to do this with one line. More research needed to not get errors. (using VS code)
+				entry += local_SubStringPile[i];
+				entry += ", ";
+
+			}
+
 
 			//Push back the entry at with the concatnated substrings.
 			SubStringList.push_back(entry);
@@ -297,6 +313,8 @@ void SubStringSouffle::_traverseSTR()
 	char* small;
 	char* p;
 
+
+
 	//Go through the list of All the Words....
 	#pragma omp parallel for  num_threads(2)
 	for (auto&& word : allwordsList)
@@ -305,6 +323,7 @@ void SubStringSouffle::_traverseSTR()
 		big = word.data();
 
 		std::string entry = word + "; ";
+		local_SubStringPile.clear();
 
 		//Nested loop to compare all the words from the AllWords.txt, with each word in CommonWords.txt
 		//#pragma omp parallel for
@@ -319,15 +338,27 @@ void SubStringSouffle::_traverseSTR()
 
 			if(p)
 			{
-				//Got to find a way to do this with one line. More research needed to not get errors. (using VS code)
-				entry += (p);
-				entry += ", ";
-				
+				//Store the word we found in a list to sort later.
+				local_SubStringPile.push_back(p);
 				 //Keeping track of the word count.
 				SubStringcout++;
 			}
 
 		}
+
+			//Perform the sort, and the concat before we push back.
+			std::sort(local_SubStringPile.begin(), local_SubStringPile.end(), compareFunction );
+
+			//Perform the concat here.
+			for(size_t i=0; i!=local_SubStringPile.size(); i++)
+			{
+				//Got to find a way to do this with one line. More research needed to not get errors. (using VS code)
+				entry += local_SubStringPile[i];
+				entry += ", ";
+
+			}
+
+				
 
 			//Push back an entry of the all words, with all of the sub strings attached to them.
 			SubStringList.push_back(entry);

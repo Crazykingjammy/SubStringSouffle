@@ -9,41 +9,41 @@
 //
 
 
-//#include "SubStringSouffle/SubStringSouffle.h"
+#include "SubStringSouffle/SubStringSouffle.h"
 #include <iostream>
 
 //Globals, because we are trying to keep this all in one single file, for now. 
-// SubStringSouffle program; 
+ SubStringSouffle program; 
 
 
-// int main(int argc, const char* argv[]) {
+int main(int argc, const char* argv[]) {
 
-//     std::cout << "Have " << argc << " arguments: ";
-//     for (int i = 0; i < argc; ++i) {
-//         std::cout << argv[i] << ", ";
-//     }
-// 	std::cout << '\n';
-
-// 	// ALways be curtious and say hello.
-// 	std::cout << "Hello, Main!!\n";
-
-// 	// //Load the program and pass in the data files.
-// 	 program.Load("homework_data/commonwords.txt", "homework_data/allwords.txt");
-
-// 	// //Process the list.
-// 	 program.ProcessLists();
-	
-	
-// 	//Finishing line.
-// 	std::cout << "Program completed ! :Test \n";
-
-// }
-
-
-int main(int argc, char** argv) {
-    std::cout << "Have " << argc << " arguments:" << std::endl;
+    std::cout << "Have " << argc << " arguments: ";
     for (int i = 0; i < argc; ++i) {
         std::cout << argv[i] << ", ";
     }
-		std::cout << "  [.]" << std::endl;
+	std::cout << '\n';
+
+	// ALways be curtious and say hello.
+	std::cout << "Hello, Main!!\n";
+
+	// //Load the program and pass in the data files.
+	 program.Load("homework_data/commonwords.txt", "homework_data/allwords.txt");
+
+	// //Process the list.
+	 program.ProcessLists();
+	
+	
+	//Finishing line.
+	std::cout << "Program completed ! :Test \n";
+
 }
+
+
+// int main(int argc, char** argv) {
+//     std::cout << "Have " << argc << " arguments:" << std::endl;
+//     for (int i = 0; i < argc; ++i) {
+//         std::cout << argv[i] << ", ";
+//     }
+// 		std::cout << "  [.]" << std::endl;
+// }

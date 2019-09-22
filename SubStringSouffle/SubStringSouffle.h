@@ -9,6 +9,7 @@
 #include <vector>
 #include <iterator>
 #include <algorithm>    // std::sort
+#include <numeric>    // easy vector string accumilate.
 #include <fstream>
 #include <ctime>
 #include <limits.h>
@@ -32,6 +33,7 @@ private:
 	std::vector<std::string> commonwordsList;
 	std::vector<std::string> allwordsList;
 	std::vector<std::string> SubStringList;
+	std::vector<std::string> local_SubStringPile;
 
 	//Counters to keep track of word counts for different lists.
 	int commoncount = 0;
@@ -57,10 +59,10 @@ private:
 	
 	void Load(std::string filename_CommonWords, std::string filename_AllWords);
 	void ProcessLists();
+	//bool compareFunction(std::string a, std::string b) { return a < b; }
 
 protected:
 	
-	bool compareFunction(std::string a, std::string b) { return a < b; }
 
 
 	void DisplayTimeElapsed(std::clock_t clock, std::string message = "Calculated Time: ")
