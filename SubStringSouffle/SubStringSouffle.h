@@ -52,6 +52,7 @@ private:
 	void _emptyTraverse();
 	void _traverseLists();
 	void _traverseSTR();
+	void _threadedSTR();
 
 
 	//Public interface functions.
