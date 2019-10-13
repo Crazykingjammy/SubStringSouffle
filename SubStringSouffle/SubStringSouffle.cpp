@@ -501,6 +501,7 @@ void SubStringSouffle::ProcessLists()
 	case 'X':
 	case 'x':
 		_traverseSTR();
+		break;
 		case 'C':
 	case 'c':
 		_threadedSTR();
