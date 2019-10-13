@@ -32,6 +32,18 @@ main.cpp is kind of setup to run on its own if we wernt fools and just want to t
 
 
  ./prog   (runs the program)
+
+#### Cmake config
+
+Cmake has finally been configred! As of this time of reading, the cmakelists.txt has been configured to compile both the SubStringSouffle.cpp and the main.cpp !
+This is great news, now I can begin to clear up the functions by placing them in seperate files to make the proejct a bit more cleaner.
+
+'Commands:'
+
+- make // The only thing you need to call to compile, assuming no new files were added.
+- cmake . // command to compile and update the cmake project files. it reads from CMakeLists.txt where its configured to include all the cpp files.
+
+note: Got to find a way to update the CMakeLists.txt when a new file is added now. A script command you say? 
  
 #### Status - 9 - 21 - 2019
 
@@ -51,3 +63,22 @@ But the program demonstrates a few different performances:
  
  The goal at this point is to clearn up the code better, I think the code is balloned beyond what it shold be for what this program does.
  
+#### Status - 10 - 13 - 2019
+
+Well I am stoked to at least got a cmake commands working! 
+Ive been building manually for some time now, and ive been linking the two objects togehtehr manually.
+I figure going the CMake route would be a more universally accepted route than a script to build via commands?
+
+More to look into!
+
+Also the lot of this has been done via command line from mac into a virtual linux box on my pc! Really cool! including the git updates, and even updating this read me file!
+
+Have the terminal heads been in dark mode all this time? hmmm..
+
+Next updates should include a cleaner breakdown of those long sorting functions. break them up in different files so the SubStringSouffle.cpp isnt a long mess of copied but slighgly modified algorithm. 
+
+This project ended up being a lot of fun.
+
+Thanks Ovi. 
+
+
