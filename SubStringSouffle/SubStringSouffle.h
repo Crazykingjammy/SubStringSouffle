@@ -50,13 +50,13 @@ private:
 	void _validateStreamFiles();
 	void _writeResultsToFile(std::string filename);
 	void _printResultData();
-	void _noLoopTraverse();
-	void _emptyTraverse();
-	void _traverseLists();
-	void _traverseSTR();
-	void _threadedSTR();
+	
+	std::string TraverseType(int skip);
 
-	void _checkSTR(char*big, char*small);
+	void _traverseLists(int skip = 0);
+	void _traverseSTR();
+	void _threadedSTR(int skip = 0);
+
 
 
 
@@ -67,8 +67,7 @@ private:
 	void ProcessLists();
 	
 	static bool compareFunction(std::string a, std::string b);
-	//inline bool compareFunction(std::string a, std::string b) { return a < b; }
-
+	
 protected:
 	
 

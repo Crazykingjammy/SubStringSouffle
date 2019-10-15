@@ -132,3 +132,28 @@ void SubStringSouffle::_printResultData()
 	std::cout << "Sub String Vector ----->      " << SubStringList.size() << "\n\n\n";
 
 }
+
+std::string SubStringSouffle::TraverseType(int skip)
+{
+switch(skip)
+{
+	case 0:
+		//Header("Begin Full Body Traverse");
+		return "Full Body";
+	break;
+	case 1:
+		//Header("Begin Empty Traverse");
+		return "Single Loop";
+	break;
+	case 2:
+		//Header("No Loop Traverse");
+		return "No Loop";
+	break;
+
+	default:
+	//Having some formatting fun.
+	//Header("Default traverse.");
+	return "N/A";
+	break;
+}
+}

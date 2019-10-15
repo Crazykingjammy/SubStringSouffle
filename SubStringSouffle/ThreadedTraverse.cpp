@@ -10,7 +10,7 @@
 
 
 
-void SubStringSouffle::_threadedSTR()
+void SubStringSouffle::_threadedSTR(int skip)
 {
 	//Set the cache time.
 	cache = std::clock();
@@ -19,7 +19,8 @@ void SubStringSouffle::_threadedSTR()
 	//Perform sorting.
 	//std::sort(SubStringList.begin(), SubStringList.end(), compareFunction);
 
-	Header("Begin THREADED Traverse");
+	Header("THREAD Traverse ||||||--:> " + TraverseType(skip));
+
 	int _allwords_loop_counter_ = 0;
 	char* big;
 	char* small;
