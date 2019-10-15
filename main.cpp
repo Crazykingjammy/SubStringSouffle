@@ -30,9 +30,25 @@ int main(int argc, const char* argv[]) {
 	// //Load the program and pass in the data files.
 	 program.Load("homework_data/commonwords.txt", "homework_data/allwords.txt");
 
+
+while(true)
+{
 	// //Process the list.
 	 program.ProcessLists();
 	
+	//After we process we ask the user for input.
+	//Finishing line.
+	std::cout << "List Processed, file written to SubStrings.txt \n\n\n\n";
+	// ALways be curtious and say hello.
+	std::cout << "Process list again? (y/n) \n\n";
+	char input; 
+
+	std::cin >> input; 
+	
+	if(input == 'n')
+		break;	
+
+}
 	
 	//Finishing line.
 	std::cout << "Program completed ! :Test \n";

@@ -14,6 +14,8 @@
 #include <ctime>
 #include <limits.h>
 #include <unistd.h>
+#include <thread>
+
 
 class SubStringSouffle
 {
@@ -54,13 +56,18 @@ private:
 	void _traverseSTR();
 	void _threadedSTR();
 
+	void _checkSTR(char*big, char*small);
+
+
 
 	//Public interface functions.
 	public:
 	
 	void Load(std::string filename_CommonWords, std::string filename_AllWords);
 	void ProcessLists();
-	//bool compareFunction(std::string a, std::string b) { return a < b; }
+	
+	static bool compareFunction(std::string a, std::string b);
+	//inline bool compareFunction(std::string a, std::string b) { return a < b; }
 
 protected:
 	
