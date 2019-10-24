@@ -182,8 +182,12 @@ switch(skip)
 			SubString result = ProcessCommon(word, commonWords);
 
 			//Push back on our own return object.
-			substr._substrCache.push_back(result.entries);
-			substr.count += result.count;
+			//Only push back if we have entries.
+			if(result.count > 0)
+			{
+				substr._substrCache.push_back(result.entries);
+				substr.count += result.count;
+			}
 
 			std::cout << "count: " << i << '\r';
 
