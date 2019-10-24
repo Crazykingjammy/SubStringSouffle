@@ -15,7 +15,13 @@
 #include <limits.h>
 #include <unistd.h>
 #include <thread>
+#include<mutex>
 
+struct SubString {
+std::string entries;
+int count;
+std::vector<std::string> _substrCache;
+};
 
 class SubStringSouffle
 {
@@ -42,6 +48,9 @@ private:
 	int wordcount = 0;
 	int SubStringcout = 0;
 
+	int chunksize = 0;
+	int threadcount = 4;
+
 
 
 
@@ -55,18 +64,25 @@ private:
 
 	void _traverseLists(int skip = 0);
 	void _traverseSTR();
-	void _threadedSTR(int skip = 0);
+	
 
+	SubString _ProcessCommon(std::string word);
 
 
 
 	//Public interface functions.
 	public:
+	void _LoopBig(int chunk_start, int chunk_finish);
 	
 	void Load(std::string filename_CommonWords, std::string filename_AllWords);
 	void ProcessLists();
 	
 	static bool compareFunction(std::string a, std::string b);
+
+	static SubString ProcessCommon(std::string word, std::vector<std::string> commonWords);
+	static SubString ProcessWordsWithCommon(std::vector<std::string> AllWords, std::vector<std::string> commonWords,
+	int chunk_start, int chunk_finish);
+
 	
 protected:
 	

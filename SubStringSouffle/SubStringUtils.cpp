@@ -6,6 +6,7 @@
 //  Copyright © 2019 Kevaad Abdool. All rights reserved.
 //
 # include "SubStringSouffle.h"
+#include "../HippoUtility/Console.h"
 
 bool SubStringSouffle::compareFunction(std::string a, std::string b) { return a < b; }
 
@@ -87,6 +88,9 @@ void SubStringSouffle::_validateStreamFiles()
 	std::cout << "Full Word Count: " << wordcount << "\n";
 	DisplayTimeElapsed(cache);
 
+//Display chunk size.
+chunksize = (int)(allwordsList.size() / threadcount);
+
 }
 
 
@@ -157,3 +161,108 @@ switch(skip)
 	break;
 }
 }
+
+ SubString SubStringSouffle::ProcessWordsWithCommon(std::vector<std::string> AllWords, 
+ std::vector<std::string> commonWords, int chunk_start, int chunk_finish)
+	{
+		//Local varaibles for cache
+		std::string word;
+		std::clock_t elapse = std::clock();
+
+		//The return object.
+		SubString substr;
+
+		//Go through and loop through the full words list (by chunk)
+		for(int i = chunk_start; i < chunk_finish; i++)
+		{
+			//Grab the current word in the iteration from the full list.
+			word = AllWords[i];
+
+			//Grab the result after we process all the common for that word.
+			SubString result = ProcessCommon(word, commonWords);
+
+			//Push back on our own return object.
+			substr._substrCache.push_back(result.entries);
+			substr.count += result.count;
+
+			std::cout << "count: " << i << '\r';
+
+			//Some display information?
+			if (i == (int) (AllWords.size()/ 2) )
+			{
+				HippoUtility::Console::Log("Half way there... : ");
+				HippoUtility::Console::DisplayTimeElapsed(elapse, "Time: ");
+			}
+
+
+		}
+
+
+		//Return our data.
+		return substr;
+
+	}
+
+ SubString SubStringSouffle::ProcessCommon(std::string word, std::vector<std::string> commonWords)
+ {
+	 //Local trackers.
+	 char* big;
+	 char* small;
+	 char* p;
+
+	 //Local Tools.
+	//  std::vector<std::string> _SubStringCache;
+	//  _SubStringCache.clear();
+	 SubString substr;
+
+	 //Set up our return data.
+	 //substr.count = 0;  //This doenst need to be called but ill leave it here for refernece.
+
+	//Start the entries with the word we are checking, followed by the semi-colon, 
+	//and then the list of sub string words should follow
+	 substr.entries = word + "; ";
+
+	 //Set the main word we are checking against in all common words.
+	 //Not sure why it needs to be grabbed like this.
+	 big = (char*)word.data();
+
+	//Loop through the common words list and check if they apply to the word being inputted.
+	for(auto && cword : commonWords)
+	{
+		//Grab the common word and store it in the small char pointer.
+		small = (char*)cword.data();
+
+		//We should call a function for different types of compare.
+		//will just implement strstr for now.
+
+		p = std::strstr(big,small);
+		
+		//If we have some resutls
+		if(p)
+		{
+			//Push back to the local list of sub strings.
+			substr._substrCache.push_back(p);
+			
+			//keep track of the count.
+			substr.count++;
+		}
+
+	} //End common words loop.
+
+	//Perform the sort, and concat before we push back to the return vector.
+	std::sort(substr._substrCache.begin(), substr._substrCache.end(), compareFunction );
+
+	//Loop through and add all the sub strings to the entires.
+	for(size_t i=0; i!=substr._substrCache.size(); i++)
+	{
+		//Add all entires to the single line for the right submission format.
+		substr.entries += substr._substrCache[i] + ", ";
+	}
+
+
+	//Return our substring structure which should be filled up with its data now.
+	return substr;
+
+
+
+ }

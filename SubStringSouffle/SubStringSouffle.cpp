@@ -14,41 +14,39 @@
 void SubStringSouffle::ProcessLists()
 {
 
-	char input;
+	int input;
 
 	Header("Please Select a Traverse Option");
 
 	//std::cout << "------ :Please Select a Traverse Option:  ------" << "\n\n";
-	std::cout << "[N] - Single Loop Traverse" << '\n';
-	std::cout << "[E] - No Loop Traverse" << '\n';
-	std::cout << "[X] - Traverse via STRSTR" << '\n';
-	std::cout << "[C] - Threaded Traverse" << '\n';
-	std::cout << "[T] - Regular Traverse" << '\n';
+	std::cout << "[1] - Empty Loop Traverse" << '\n';
+	std::cout << "[2] - Single Loop Traverse" << '\n';
+	std::cout << "[3] - Full [Double] Loop Traverse" << '\n';
+	std::cout << "[4] - Traverse via STRSTR" << '\n';
+	std::cout << "[5] - Threaded Traverse" << '\n';
+	std::cout << "[6] - Blank Traverse" << '\n';
+	
 	std::cin >> input;
 
 	switch (input)
 	{
-	case 'T':
-	case 't':
-		_traverseLists();
-		break;
-	case 'E':
-	case 'e':
-		//_emptyTraverse();
+	case 1:
 		_traverseLists(2);
 		break;
-	case 'N':
-	case 'n':
-		//_noLoopTraverse();
+	case 2:
 		_traverseLists(1);
 		break;
-	case 'X':
-	case 'x':
+	case 3:
+		_traverseLists();
+		break;
+	case 4:
 		_traverseSTR();
 		break;
-		case 'C':
-	case 'c':
-		_threadedSTR();
+	case 5:
+		//_thSTR(0);
+		break;
+	case 6: 
+		_traverseLists(3);
 		break;
 
 	default:
@@ -91,7 +89,7 @@ void SubStringSouffle::_traverseLists(int skip)
 	{
 		//We do a check, if skip is 2, we break before we hit the fore loop.
 		if(skip == 2)
-			break;
+			continue;
 
 		//Start the loop with the word we are on, then add the seprator and a space for the substrings to follow.
 		std::string entry = word + "; ";
@@ -104,7 +102,7 @@ void SubStringSouffle::_traverseLists(int skip)
 		{
 		//We do a check, if skip is 1, we break before we hit the fore loop.
 		if(skip == 1)
-			break;
+			continue;
 
 			////Pasing in the common word, and finding it within the word selected from AllWords.txt.
 			std::size_t pos = word.find(cword);
@@ -159,3 +157,106 @@ void SubStringSouffle::_traverseLists(int skip)
 
 
 
+void SubStringSouffle::_LoopBig(int chunk_start, int chunk_finish)
+{
+	std::string word; 
+	int _allwords_loop_counter_ = 0;
+	//int start = chunk_start;
+
+	for(int i = chunk_start; i < chunk_finish; i++ )
+	{
+		word = allwordsList[i];
+		
+		SubString result = _ProcessCommon(word);
+
+		SubStringList.push_back(result.entries);
+		SubStringcout += result.count;
+
+
+		//Information to display during operations.
+		//Just a half way marker, dont want to go overboard since on UNIX (not windows) Ive manged to erase the line and display sount, so woot.
+		if(_allwords_loop_counter_ == (int) (allwordsList.size()/ 2) )
+		{
+			DisplayTimeElapsed(cache, "Half way there... : ");
+		}
+		
+		//Using a fancy for loop in order to still declear a counter so i can display. hehe.
+		std::cout << "count : " << _allwords_loop_counter_  << '\n';
+		_allwords_loop_counter_++;
+
+
+	
+	}
+
+}
+
+
+SubString SubStringSouffle::_ProcessCommon(std::string word)
+{
+
+	//Local keeps.
+	char* big;
+	char* small;
+	char* p;
+
+	//Local tools.
+	std::vector<std::string> _SubStringCache;
+	_SubStringCache.clear();
+	SubString subStr;
+
+
+
+	//Store our data in this function for faster access.
+	//To be deleted and accessed in struct directly.
+	int wordCount = 0;
+	std::string entry = word + "; ";
+
+
+	//Set the main word we looking to grab.
+	big = (char*)word.data();
+
+
+	//Nested loop to compare all the words from the AllWords.txt, with each word in CommonWords.txt
+	for (auto&& cword : commonwordsList)
+		{
+
+	//We will just continue to cache our data even though we access it only once.
+				small = (char*)cword.data();
+				
+				
+				//Start with the word.
+				p = std::strstr(big,small);
+
+				if(p)
+				{
+					//Store the word we found in a list to sort later.
+					_SubStringCache.push_back(p);
+					//Keeping track of the word count.
+					subStr.count++;
+				}
+
+
+		}
+
+
+	//Perform the sort, and the concat before we push back.
+	std::sort(_SubStringCache.begin(), _SubStringCache.end(), compareFunction );
+
+		//Perform the concat here.
+		for(size_t i=0; i!=_SubStringCache.size(); i++)
+		{
+			//Got to find a way to do this with one line. More research needed to not get errors. (using VS code)
+			entry += _SubStringCache[i];
+			entry += ", ";
+
+		}
+
+
+	//Copy values for now, but eventually remove the middle man values and write to the struct directly.
+	subStr.entries = entry;
+	subStr._substrCache = _SubStringCache;
+
+	return subStr;
+
+
+}
